@@ -16,6 +16,7 @@ html, body {
     border: 1px solid black;
     height: 500px;
     position: relative;
+    overflow: hidden;
 }
 
 .arrow {
@@ -58,4 +59,9 @@ html, body {
 
 #breeds {
     margin-bottom: 10px;
+}
+
+#image {
+    width: 100%;
+    height: auto;
 }

@@ -1,5 +1,8 @@
 "use strict"
 
+let images = [];
+let selectedImageIndex = 0;
+
 function getListOfBread() {
     let url = 'https://api.thecatapi.com/v1/breeds?attach_breed=0';
     let promise = fetch(url)
@@ -28,12 +31,32 @@ function getSelectedBreedImages(id) {
     let url= 'https://api.thecatapi.com/v1/images/search?limit=10&breed_id='+ id;
     let promise = fetch(url)
         .then(response => response.json())
-        .then(images => addImages(images));
+        .then(newImages => {
+            images = newImages;
+            selectImageAtIndex(0)
+        });
 }
 
-function addImages(images) {
-    console.log(images);
+function selectImageAtIndex(index) {
+    let image = document.getElementById('image');
+    selectedImageIndex = index;
+    image.setAttribute('src', "");
+    image.setAttribute('src', `${images[index]["url"]}`);
+}
+
+function initPrevNextEvent() {
+    document.getElementById('left').addEventListener('click', () => {
+        if (selectedImageIndex > 0) {
+            selectImageAtIndex(selectedImageIndex - 1);
+        }
+    });
+    document.getElementById('right').addEventListener('click', () => {
+        if (selectedImageIndex < images.length) {
+            selectImageAtIndex(selectedImageIndex + 1);
+        }
+    });
 }
 
 getListOfBread();
 initEvent();
+initPrevNextEvent();
