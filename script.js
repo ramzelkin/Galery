@@ -42,6 +42,11 @@ function selectImageAtIndex(index) {
     selectedImageIndex = index;
     image.setAttribute('src', "");
     image.setAttribute('src', `${images[index]["url"]}`);
+
+    document.getElementById('nav').innerHTML = '';
+    for (let i = 0; i < images.length; i += 1) {
+        document.getElementById('nav').innerHTML += `<li data-index="${i}"></li>`;
+    }
 }
 
 function initPrevNextEvent() {
@@ -51,12 +56,21 @@ function initPrevNextEvent() {
         }
     });
     document.getElementById('right').addEventListener('click', () => {
-        if (selectedImageIndex < images.length) {
+        if (selectedImageIndex < images.length - 1) {
             selectImageAtIndex(selectedImageIndex + 1);
         }
+    });
+}
+
+function initNavEvent() {
+    document.getElementById('nav').addEventListener('click', event => {
+        let currentItem = event.target;
+        let index = currentItem.getAttribute('data-index');
+        selectImageAtIndex(index);
     });
 }
 
 getListOfBread();
 initEvent();
 initPrevNextEvent();
+initNavEvent();
