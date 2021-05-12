@@ -1,0 +1,12 @@
+.nav  {
+    display: flex;
+}
+
+.nav li {
+    width: 20px;
+}
+
+.nav:hover,
+.nav li:hover {
+    cursor: pointer;
+}

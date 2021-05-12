@@ -1,0 +1,13 @@
+.image-container {
+    width: 800px;
+    border: 1px solid #000;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+}
