@@ -1,6 +1,6 @@
 import React from 'react';
 
-class SelectBreed extends React.Component {
+class Select extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -22,4 +22,4 @@ class SelectBreed extends React.Component {
     }
 }
 
-export default SelectBreed;
+export default Select;

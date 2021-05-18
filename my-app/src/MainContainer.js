@@ -1,6 +1,6 @@
 import React from 'react';
 import './MainContainer.css'
-import SelectBreed from './SelectBreed.js';
+import Select from './Select.js';
 import ImageContainer from './ImageContainer.js';
 import NavBar from './NavBar.js';
 
@@ -32,31 +32,25 @@ class MainContainer extends React.Component {
    }
 
    setBreeds(breeds) {
-       let state = this.state;
-
-       state.breeds = breeds;
-       this.setState(state);
+       this.setState({
+        breeds: breeds
+      });
   }
 
     handleSelectChange(id) {
-        let state = this.state;
-
-        state.selectedBreedId = id;
-        state.imageSrc = "";
-        state.images = [];
-        this.setState(state);
+        this.setState({
+         selectedBreedId: id
+       });
         this.getSelectedBreedImages(id);
     }
 
     handleSelectListItem(index) {
         let state = this.state;
 
-        state.imageSrc = '';
-        this.setState(state);
         setTimeout(() => {
-            state.imageSrc = state.images[index].url;
-            this.setState(state);
-        }, 0);    
+            this.setState({
+             imageSrc: state.images[index].url
+           })}, 0);
     }
 
     getSelectedBreed() {
@@ -70,18 +64,17 @@ class MainContainer extends React.Component {
        let promise = fetch(url)
            .then(response => response.json())
            .then(newImages => {
-               let state = this.state;
-
-               state.images = newImages;
-               state.imageSrc = newImages[0].url;
-               this.setState(state);
+               this.setState({
+                images: newImages,
+                imageSrc: newImages[0].url
+              });
            });
    }
 
     render () {
         return (
             <div className="main-container">
-                <SelectBreed
+                <Select
                     value={this.getSelectedBreed().name}
                     options={this.state.breeds.map((breed) =>
                         <option id={breed["id"]} key={breed["id"]}>{breed.name}</option>
