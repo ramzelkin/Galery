@@ -13,7 +13,8 @@ class MainContainer extends React.Component {
             selectedBreedId: '',
             breeds: [],
             imageSrc: '',
-            images: []
+            images: [],
+            isLoading: false
         };
     }
 
@@ -44,13 +45,12 @@ class MainContainer extends React.Component {
         this.getSelectedBreedImages(id);
     }
 
-    handleSelectListItem(index) {
+    handleSelectListItem = (index) => {
         let state = this.state;
 
-        setTimeout(() => {
-            this.setState({
-             imageSrc: state.images[index].url
-           })}, 0);
+        this.setState({
+            imageSrc: state.images[index].url
+        });
     }
 
     getSelectedBreed() {
@@ -60,34 +60,39 @@ class MainContainer extends React.Component {
     }
 
     getSelectedBreedImages(id) {
-       let url= 'https://api.thecatapi.com/v1/images/search?limit=10&breed_id='+ id;
-       let promise = fetch(url)
+        this.setState({ isLoading: true });
+        let url= 'https://api.thecatapi.com/v1/images/search?limit=10&breed_id='+ id;
+        let promise = fetch(url)
            .then(response => response.json())
            .then(newImages => {
                this.setState({
                 images: newImages,
-                imageSrc: newImages[0].url
+                imageSrc: newImages[0].url,
+                isLoading: false
               });
            });
    }
 
     render () {
-        return (
-            <div className="main-container">
-                <Select
-                    value={this.getSelectedBreed().name}
-                    options={this.state.breeds.map((breed) =>
-                        <option id={breed["id"]} key={breed["id"]}>{breed.name}</option>
-                    )}
-                    onSelectChange={this.handleSelectChange}
-                />
-                <ImageContainer src={this.state.imageSrc}/>
-                <NavBar
-                    count={this.state.images.length}
-                    onClick={this.handleSelectListItem}
-                />
-            </div>
-        );
+        if (this.state.isLoading) {
+            return <div className="loader">Loading...</div>
+        }
+        else {
+            return (
+                <div className="main-container">
+                    <Select
+                        value={this.getSelectedBreed().name}
+                        options={this.state.breeds}
+                        onSelectChange={this.handleSelectChange}
+                    />
+                    <ImageContainer src={this.state.imageSrc}/>
+                    <NavBar
+                        count={this.state.images.length}
+                        onClick={this.handleSelectListItem}
+                    />
+                </div>
+            );
+        }
     }
 }
 

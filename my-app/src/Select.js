@@ -1,4 +1,5 @@
 import React from 'react';
+import './Select.css'
 
 class Select extends React.Component {
     constructor(props) {
@@ -16,7 +17,9 @@ class Select extends React.Component {
     render () {
         return (
              <select value={this.props.value} onChange={this.handleChange} >
-                {this.props.options}
+                {this.props.options.map((breed) =>
+                    <option id={breed["id"]} key={breed["id"]}>{breed.name}</option>
+                )}
              </select>
         );
     }
